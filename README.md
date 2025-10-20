@@ -56,7 +56,7 @@ open http://localhost:3000  # Grafana
 ```
 
 ## 📁 Project Structure
-``bash
+```bash
 prometheus-grafana-fastapi/
 ├── .gitignore
 ├── README.md
@@ -85,5 +85,5 @@ prometheus-grafana-fastapi/
 └── scripts/
     └── load-test.sh
 
-``
+```
 
