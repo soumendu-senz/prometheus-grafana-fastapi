@@ -1,8 +1,6 @@
 # FastAPI APM | Production-Ready Monitoring Stack with Grafana-Prometheus
-https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi
-https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=white
-https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white
-https://img.shields.io/badge/Podman-892CA0?style=for-the-badge&logo=podman&logoColor=white
+(https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
+
 [![Python Version](https://img.shields.io/badge/python-3.12%2B-blue)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CI/CD](https://github.com/username/project-name/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/username/project-name/actions/workflows/ci-cd.yml)
@@ -28,15 +26,39 @@ A brief description of your project.
 - **Linting**: Ruff (blazing fast) + Black compatibility
 - **Structured**: Follows [src layout](https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/)
 
-## 🚀 Quick Start
-```bash
-git clone https://github.com/yourname/template.git myproject
-cd myproject
-make install
-make dev-server  # FastAPI
-# OR
-make train       # ML
+# 📊 Architecture
+``bash
+FastAPI App → Prometheus Metrics → Grafana Dashboards
+     ↑
+  Load Test Client
+``
 
+## 🚀 Quick Start
+### Prerequisites
+- Python 3.12 or higher
+- Podman or Docker with Docker Compose
+- UV (recommended) or pip
+
+```bash
+# Clone and enter the project
+git clone  https://github.com/pydev369/prometheus-grafana-fastapi
+cd fastapi-apm
+
+# Install using UV (recommended)
+uv sync --all-extras
+
+# Alternative: Install using pip
+pip install -e .[dev,test]
+
+# Start the monitoring stack
+podman-compose up -d
+
+# Run the FastAPI application
+uvicorn src.fastapi_apm.main:app --reload --host 0.0.0.0 --port 8000
+
+# In a separate terminal, run load tests
+test-client --rates 10 100 500 --duration 30
+```
 ## 📦 Dependencies
 
 Managed via pyproject.toml:
@@ -51,21 +73,43 @@ docker run -p 8000:8000 myapp  # FastAPI
 # OR
 docker run -p 8888:8888 myapp make notebook  # ML
 
-## Fastapi template
+## 📁 Project Structure
 ``bash
 fastapi-apm/
-├── app/
-│   ├── main.py
-│   └── requirements.txt
-├── prometheus/
-│   └── prometheus.yml
+├── src/
+│   └── fastapi_apm/
+│       ├── __init__.py
+│       ├── main.py                 # FastAPI application
+│       └── test_client.py          # Load testing client
 ├── grafana/
 │   └── provisioning/
 │       ├── dashboards/
 │       │   └── dashboard.yml
 │       └── datasources/
 │           └── prometheus.yml
-├── podman-compose.yaml
-└── test_client.py``
+├── tests/
+│   └── test_client.py
+├── scripts/
+│   └── deploy.sh
+├── prometheus.yml                  # Prometheus configuration
+├── podman-compose.yaml             # Container orchestration
+├── pyproject.toml                  # Project dependencies & config
+├── Dockerfile
+└── README.md
 
+``
+
+## 🐳 Running the Stack
+``bash
+# Start all services
+podman-compose up -d
+
+# View logs
+podman-compose logs -f
+
+# Stop services
+podman-compose down
+
+# Stop and remove volumes
+podman-compose down -v
 ``
