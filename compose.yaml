@@ -1,33 +1,50 @@
 version: "3.8"
 services:
-  fastapi-app:
-    build: .
-    ports: ["8000:8000"]
+  fastapi-apm-app:
+    container_name: fastapi-apm-app
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: fastapi-apm:latest
+    ports: ["8031:8031"]
     networks: [monitoring]
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8031/health"]
       interval: 10s
       timeout: 3s
       retries: 3
+    labels:
+      - "description=FastAPI APM Application"
+      - "version=1.0.0"
 
-  prometheus:
-    image: prom/prometheus:v2.47
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./alerts.yml:/etc/prometheus/alerts.yml
+  prometheus-monitoring:
+    container_name: prometheus-monitoring
+    image: docker.io/prom/prometheus:v2.47.0
+    # volumes:
+    #   - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    #   - ./monitoring/alerts.yml:/etc/prometheus/alerts.yml
     ports: ["9090:9090"]
     networks: [monitoring]
+    labels:
+      - "description=Prometheus Monitoring Server"
+      - "component=metrics-collection"
 
-  grafana:
-    image: grafana/grafana:10.1
+  grafana-dashboard:
+    container_name: grafana-dashboard
+    image: docker.io/grafana/grafana:10.1.0
     ports: ["3000:3000"]
     environment:
       GF_AUTH_ANONYMOUS_ENABLED: "true"
       GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
-    volumes:
-      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+      GF_INSTANCE_NAME: "FastAPI APM Dashboard"
+    # volumes:
+    #   - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
     networks: [monitoring]
+    labels:
+      - "description=Grafana Dashboard"
+      - "component=visualization"
 
 networks:
   monitoring:
+    name: fastapi-apm-network
     driver: bridge

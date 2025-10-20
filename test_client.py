@@ -3,7 +3,7 @@ import time
 import threading
 import random
 
-BASE_URL = "http://localhost:8000"
+BASE_URL = "http://localhost:8031"
 ENDPOINTS = [
     "/",
     "/compute/30",

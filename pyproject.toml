@@ -1,44 +1,36 @@
 [project]
 name = "fastapi-apm"
 version = "0.1.0"
-description = "Production observability stack with Prometheus & Grafana monitoring on A FastAPI service"
+description = "FastAPI APM Monitoring Stack"
 authors = [
-    {name = "Soumendu Pal", email = "your.email@example.com"}
+    {name = "Your Name", email = "your.email@example.com"},
 ]
-readme = "README.md"
-requires-python = ">=3.9"
 dependencies = [
     "fastapi>=0.104.0",
     "uvicorn[standard]>=0.24.0",
-    "prometheus-fastapi-instrumentator>=7.1.0",
-    "psutil>=6.0.0",
-    "httpx>=0.25.0",
+    "prometheus-fastapi-instrumentator>=1.0.0",
+    "loguru>=0.7.3",
 ]
+requires-python = ">=3.12"
 
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",
-    "black>=23.0.0",
-    "isort>=5.12.0",
-    "mypy>=1.0.0",
-    "httpx>=0.24.0",
-     "requests>=2.31.0",
-]
-test = [
-    "pytest>=7.0.0",
     "pytest-asyncio>=0.21.0",
+    "aiohttp>=3.9.0",
 ]
 
 [build-system]
 requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.build_meta"
 
-[project.scripts]
-test-client = "fastapi_apm.test_client:main"
 
-[tool.setuptools.packages.find]
-where = ["src"]
-include = ["app*"]
+# [project.scripts]
+# test-client = "fastapi_apm.test_client:main"
 
-[tool.pytest.ini_options]
-testpaths = ["tests"]
+# [tool.setuptools.packages.find]
+# where = ["src"]
+# include = ["app*"]
+
+# [tool.pytest.ini_options]
+# testpaths = ["tests"]

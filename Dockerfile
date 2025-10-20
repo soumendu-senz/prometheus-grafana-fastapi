@@ -2,13 +2,15 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Install deps
+# Install uv
+RUN pip install --no-cache-dir uv
+
+# Use uv to install from pyproject.toml
 COPY pyproject.toml .
-RUN pip install --no-cache-dir "fastapi[standard]" prometheus-fastapi-instrumentor uvicorn
+RUN uv pip install --system --no-cache-dir .
 
-# Copy code
-COPY src/ ./src/
+COPY src/ .
 
-EXPOSE 8000
+EXPOSE 8031
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "fastapi_apm.main:app", "--host", "0.0.0.0", "--port", "8031"]
