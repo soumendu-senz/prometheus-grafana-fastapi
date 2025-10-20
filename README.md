@@ -1,5 +1,8 @@
-# Grafana-Prometheus- Fastapi
-
+# FastAPI APM | Production-Ready Monitoring Stack with Grafana-Prometheus
+https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi
+https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=white
+https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white
+https://img.shields.io/badge/Podman-892CA0?style=for-the-badge&logo=podman&logoColor=white
 [![Python Version](https://img.shields.io/badge/python-3.12%2B-blue)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CI/CD](https://github.com/username/project-name/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/username/project-name/actions/workflows/ci-cd.yml)
