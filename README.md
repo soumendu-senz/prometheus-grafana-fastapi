@@ -1,4 +1,4 @@
-# Project Name
+# Grafana-Prometheus- Fastapi
 
 [![Python Version](https://img.shields.io/badge/python-3.12%2B-blue)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -50,52 +50,19 @@ docker run -p 8888:8888 myapp make notebook  # ML
 
 ## Fastapi template
 ``bash
-fastapi-template/
-├── .gitignore
-├── pyproject.toml
-├── README.md
-├── Dockerfile
-├── docker-compose.yml
-├── Makefile
+fastapi-apm/
 ├── app/
-│   ├── __init__.py
 │   ├── main.py
-│   ├── api/
-│   │   ├── __init__.py
-│   │   └── v1/
-│   │       ├── __init__.py
-│   │       └── endpoints.py
-│   └── core/
-│       ├── __init__.py
-│       └── config.py
-└── tests/
-    ├── __init__.py
-    └── test_main.py
-``
+│   └── requirements.txt
+├── prometheus/
+│   └── prometheus.yml
+├── grafana/
+│   └── provisioning/
+│       ├── dashboards/
+│       │   └── dashboard.yml
+│       └── datasources/
+│           └── prometheus.yml
+├── podman-compose.yaml
+└── test_client.py``
 
-
-## AI/ML folder tree
-``bash
-ml-template/
-├── .gitignore
-├── pyproject.toml
-├── README.md
-├── Dockerfile
-├── Makefile
-├── notebooks/
-│   └── exploration.ipynb
-├── src/
-│   ├── __init__.py
-│   ├── data/
-│   │   ├── __init__.py
-│   │   └── make_dataset.py
-│   ├── models/
-│   │   ├── __init__.py
-│   │   └── train_model.py
-│   └── utils/
-│       ├── __init__.py
-│       └── logger.py
-└── tests/
-    ├── __init__.py
-    └── test_data.py
 ``
