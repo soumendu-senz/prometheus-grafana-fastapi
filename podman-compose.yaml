@@ -1,8 +1,8 @@
 version: "3.8"
 services:
   fastapi-app:
-    build: ./app
-    container_name: fastapi-app
+    build: .
+    container_name: fastapi-apm-app
     ports:
       - "8000:8000"
     networks:
@@ -10,17 +10,17 @@ services:
 
   prometheus:
     image: prom/prometheus:latest
-    container_name: prometheus
+    container_name: prometheus-observer
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
       - monitoring
 
   grafana:
     image: grafana/grafana:latest
-    container_name: grafana
+    container_name: grafana-observer
     ports:
       - "3000:3000"
     environment:
