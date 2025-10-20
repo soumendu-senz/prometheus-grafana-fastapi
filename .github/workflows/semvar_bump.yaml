@@ -1,0 +1,63 @@
+name: 🏷️ Simple Version Bump & Sync ✅
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    types: [closed]
+    branches: [dev]
+
+jobs:
+  bump-version:
+    name: 🔼 Bump & Sync
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true || github.event_name == 'push'
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: ⚙️ Setup Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: 📄 Read/Create Version
+        id: version
+        run: |
+          if [ ! -f "VERSION" ]; then echo "0.1.0" > VERSION; fi
+          echo "current_version=$(cat VERSION)" >> $GITHUB_OUTPUT
+
+      - name: 🚀 Bump Version
+        id: bump
+        run: |
+          IFS='.' read -r MAJOR MINOR PATCH <<< "${{ steps.version.outputs.current_version }}"
+          COMMIT_MSG="${{ github.event.head_commit.message || github.event.pull_request.title }}"
+          
+          if echo "$COMMIT_MSG" | grep -qi "BREAKING"; then
+            echo "$((MAJOR + 1)).0.0" > VERSION
+          elif echo "$COMMIT_MSG" | grep -qi "feat:"; then
+            echo "$MAJOR.$((MINOR + 1)).0" > VERSION  
+          elif echo "$COMMIT_MSG" | grep -qi "fix:"; then
+            echo "$MAJOR.$MINOR.$((PATCH + 1))" > VERSION
+          else
+            echo "Version unchanged"
+            exit 0
+          fi
+          
+          NEW_VERSION=$(cat VERSION)
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: 💾 Commit & Sync
+        if: steps.bump.outputs.new_version
+        run: |
+          git add VERSION
+          git commit -m "chore: v${{ steps.bump.outputs.new_version }} [skip ci]"
+          git push origin sandbox
+          git checkout dev
+          git merge sandbox
+          git push origin dev
+          echo "✅ Version ${{ steps.bump.outputs.new_version }} synced to dev"
