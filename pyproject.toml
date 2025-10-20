@@ -1,9 +1,9 @@
 [project]
 name = "fastapi-apm"
 version = "0.1.0"
-description = "A FastAPI service with Prometheus & Grafana monitoring"
+description = "Production observability stack with Prometheus & Grafana monitoring on A FastAPI service"
 authors = [
-    {name = "Your Name", email = "your.email@example.com"}
+    {name = "Soumendu Pal", email = "your.email@example.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.9"
@@ -21,6 +21,8 @@ dev = [
     "black>=23.0.0",
     "isort>=5.12.0",
     "mypy>=1.0.0",
+    "httpx>=0.24.0",
+     "requests>=2.31.0",
 ]
 test = [
     "pytest>=7.0.0",
@@ -33,3 +35,10 @@ build-backend = "setuptools.build_meta"
 
 [project.scripts]
 test-client = "fastapi_apm.test_client:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["app*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
