@@ -27,7 +27,7 @@
 - [Podman](https://podman.io) (or Docker) with Compose plugin
 - [`uv`](https://docs.astral.sh/uv/) (recommended) or `pip`
 
-### Run the Stack
+### 🐳 Running the Stack
 
 ```bash
 git clone https://github.com/yourname/fastapi-apm.git
@@ -37,19 +37,24 @@ cd fastapi-apm
 uv sync --all-extras
 
 # Launch full observability stack
+
+# Start all services
 podman-compose up -d
+
+# View logs
+podman-compose logs -f
+
+# Stop services
+podman-compose down
+
+# Stop and remove volumes
+podman-compose down -v
 
 # Verify
 curl http://localhost:8000/health
 open http://localhost:3000  # Grafana
+```
 
-## Docker
-``bash
-docker build -t myapp .
-docker run -p 8000:8000 myapp  # FastAPI
-# OR
-docker run -p 8888:8888 myapp make notebook  # ML
-``
 ## 📁 Project Structure
 ``bash
 prometheus-grafana-fastapi/
@@ -82,17 +87,3 @@ prometheus-grafana-fastapi/
 
 ``
 
-## 🐳 Running the Stack
-``bash
-# Start all services
-podman-compose up -d
-
-# View logs
-podman-compose logs -f
-
-# Stop services
-podman-compose down
-
-# Stop and remove volumes
-podman-compose down -v
-``
